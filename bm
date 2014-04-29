@@ -10,7 +10,7 @@ require 'net/http'
 require 'benchmark'
 
 # This is the url you want to benchmark
-MY_URL = ARGV[0] || 'http://localhost:3900/projects'
+MY_URL = ARGV[0]
 
 # Pass in from command line or default to 5
 NUM_OF_TIMES = ARGV[1] || 5
