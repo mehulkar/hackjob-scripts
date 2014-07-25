@@ -60,7 +60,7 @@ sample_pages.each { |page_number| get_page(page_number) }
 puts 'Done getting all pages. Flattening results'
 ALL_JOBS.flatten!
 
-puts 'Ok, going to map over their tags and select the marketing ones'
+puts "Ok, going to map over their tags and select the #{ROLE_TYPE} ones"
 
 # organize by role tag
 jobs_we_care_about = ALL_JOBS.select do |job|
@@ -75,7 +75,7 @@ jobs_we_care_about = ALL_JOBS.select do |job|
 end
 
 # get the salary info
-puts "Got the jobs. Going to map over the average salaries for #{jobs_we_care_about.length} marketing jobs"
+puts "Got the jobs. Going to map over the average salaries for #{jobs_we_care_about.length} #{ROLE_TYPE} jobs"
 avg_salaries = jobs_we_care_about.map do |job|
   min = job['salary_min']
   max = job['salary_max']
