@@ -23,17 +23,6 @@ URL                     = "https://api.angel.co/1/jobs"
 
 puts "Fetching the average salary for #{ROLE_TYPE} jobs using #{NUM_OF_PAGES_TO_SAMPLE} random pages of results"
 
-class Tag
-  attr_reader :tag
-  def initialize(tag)
-    @tag = tag
-  end
-
-  def is_role_type?(type)
-    @tag['display_name'] == type
-  end
-end
-
 ALL_JOBS = []
 
 def get_page(page_num)
@@ -61,17 +50,12 @@ puts 'Done getting all pages. Flattening results'
 ALL_JOBS.flatten!
 
 puts "Ok, going to map over their tags and select the #{ROLE_TYPE} ones"
-
-# organize by role tag
+# selects only the jobs that have a tag whose display_name is ROLE_TYPE
 jobs_we_care_about = ALL_JOBS.select do |job|
-  # create tag object
-  tags = job['tags'].map {|tag| Tag.new(tag) }
-  should_return = false
-  tags.each do |tag|
-    should_return = tag.is_role_type?(ROLE_TYPE)
+  # returns true if any of display name of any tag is ROLE_TYPE
+  job['tags'].any? do |tag|
+    tag['display_name'] == ROLE_TYPE
   end
-  # return job from this map if job is a job we care about
-  job if should_return
 end
 
 # get the salary info
@@ -79,15 +63,13 @@ puts "Got the jobs. Going to map over the average salaries for #{jobs_we_care_ab
 avg_salaries = jobs_we_care_about.map do |job|
   min = job['salary_min']
   max = job['salary_max']
-  if min && max
-    (min + max) / 2
-  end
+  (min + max) / 2 if min && max
 end
 
 puts "Removing nil salaries. Don't care about equity positions"
 avg_salaries.compact!
 
-grand_average = avg_salaries.inject(:+).to_f / avg_salaries.size
+grand_average = avg_salaries.inject(:+).to_f / avg_salaries.length
 
 formatted_average = "$" +  grand_average.round(2).to_s
 
