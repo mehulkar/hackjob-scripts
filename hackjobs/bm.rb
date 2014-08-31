@@ -28,4 +28,4 @@ puts "Fetching '#{MY_URL}' #{NUM_OF_TIMES} times..."
 time = Benchmark.realtime { NUM_OF_TIMES.times { fetch(MY_URL) } }
 
 # Display the results
-puts "Total: #{time}s.\nAverage: #{time/NUM_OF_TIMES}s"
+puts "#{NUM_OF_TIMES} times: #{time}s. Average: #{time/NUM_OF_TIMES}s"
