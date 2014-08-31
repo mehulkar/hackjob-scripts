@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+# I only did this with python because I
+# didn't want to look up how to do bash arguments again
+# And because I never use python, so I thought it would be cool.
+# Author: mehulkar
+
+import sys
+import os
+import shutil
+from os.path import expanduser
+home = expanduser("~")
+
+# Usage
+print("Usage: confcontrol add <file>")
+
+# Get the file arg
+file = sys.argv[2]
+# Make the central directory to host files if it doesn't exist already
+directory = home + "/etc/confcontrol"
+if not os.path.exists(directory):
+    print("Making " + directory)
+    os.makedirs(directory)
+
+# Copy $new_file to the $confcontrol directory
+shutil.copyfile(file, directory + "/" + file)
+
+# Make a backup of file where it is
+os.rename(file, file + ".confcontrol.bak")
+
+# Make a symlink to the copied file from $confcontrol in the place it shoudl be
+os.symlink(directory + "/" + file, file)
+
+
+# TODO
+# 1. Check if the file you care about even exists
+# 2. Fail if first argument isn't add
+# 3. Maybe add a rm commmand also
+# 4. Maybe don't hardcode the confcontrol directory
+# 5. Maybe initialize a git repository in confcontrol on first create?
+# 6. Maybe add new files to vcs
