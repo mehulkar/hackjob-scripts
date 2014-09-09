@@ -5,12 +5,9 @@
 # And because I never use python, so I thought it would be cool.
 # Author: mehulkar
 
-import sys
-import os
-import shutil
+import sys, os, shutil
 
-# Usage
-# TODO only print this if it was used incorrectly
+# TODO only print usage statement on incorrect usage
 print("Usage: confcontrol add <file>")
 
 # Get the file arg
