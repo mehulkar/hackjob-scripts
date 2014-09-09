@@ -1,9 +1,17 @@
 #!/usr/bin/env python
 
-# I only did this with python because I
-# didn't want to look up how to do bash arguments again
-# And because I never use python, so I thought it would be cool.
-# Author: mehulkar
+# This isn't really a script, it's a utility.
+##
+# This is a utility that you can use to put any file
+# under a central repository. It is meant to be used
+# for config files that could be all over the system.
+##
+# The utility will:
+## 1. make a copy of the added file
+## 2. copy the file to the central repo
+## 3. replace the original file with a symlink
+##
+# author: @mehulkar
 
 import sys, os, shutil
 
@@ -29,11 +37,3 @@ os.rename(file, file + ".confcontrol.bak")
 
 # Make a symlink to the copied file from $confcontrol_dir in the place it should be
 os.symlink(confcontrol_dir + "/" + file, file)
-
-# TODO
-# 1. Check if the file you care about exists
-# 2. Fail if first argument isn't add
-# 3. Add a rm commmand also
-# 4. Don't hard code the $confcontrol_dir
-# 5. git init in $confcontrol_dir on first create
-# 6. git add after new cp into $confcontrol_dir
