@@ -22,6 +22,7 @@ print("Usage: confcontrol add <file>")
 file = sys.argv[2]
 
 # directory where we'll host all the files
+# TODO Maybe this shouldn't be hardcoded?
 confcontrol_dir = os.path.expanduser("~") + "/etc/confcontrol"
 
 # Let's create it, if it doesn't exist already
