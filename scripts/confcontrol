@@ -8,34 +8,35 @@
 import sys
 import os
 import shutil
-from os.path import expanduser
-home = expanduser("~")
 
 # Usage
+# TODO only print this if it was used incorrectly
 print("Usage: confcontrol add <file>")
 
 # Get the file arg
 file = sys.argv[2]
-# Make the central directory to host files if it doesn't exist already
-directory = home + "/etc/confcontrol"
-if not os.path.exists(directory):
-    print("Making " + directory)
-    os.makedirs(directory)
 
-# Copy $new_file to the $confcontrol directory
-shutil.copyfile(file, directory + "/" + file)
+# directory where we'll host all the files
+confcontrol_dir = os.path.expanduser("~") + "/etc/confcontrol"
+
+# Let's create it, if it doesn't exist already
+if not os.path.exists(confcontrol_dir):
+    print("Making " + confcontrol_dir)
+    os.makedirs(confcontrol_dir)
+
+# Copy $file to the $confcontrol_dir
+shutil.copyfile(file, confcontrol_dir + "/" + file)
 
 # Make a backup of file where it is
 os.rename(file, file + ".confcontrol.bak")
 
-# Make a symlink to the copied file from $confcontrol in the place it shoudl be
-os.symlink(directory + "/" + file, file)
-
+# Make a symlink to the copied file from $confcontrol_dir in the place it should be
+os.symlink(confcontrol_dir + "/" + file, file)
 
 # TODO
-# 1. Check if the file you care about even exists
+# 1. Check if the file you care about exists
 # 2. Fail if first argument isn't add
-# 3. Maybe add a rm commmand also
-# 4. Maybe don't hardcode the confcontrol directory
-# 5. Maybe initialize a git repository in confcontrol on first create?
-# 6. Maybe add new files to vcs
+# 3. Add a rm commmand also
+# 4. Don't hard code the $confcontrol_dir
+# 5. git init in $confcontrol_dir on first create
+# 6. git add after new cp into $confcontrol_dir
